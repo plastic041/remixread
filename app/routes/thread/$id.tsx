@@ -1,5 +1,12 @@
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
-import { Form, Link, useLoaderData, useTransition } from "@remix-run/react";
+import {
+  Form,
+  Link,
+  useLoaderData,
+  useLocation,
+  useResolvedPath,
+  useTransition,
+} from "@remix-run/react";
 import type { Post, Thread } from "@prisma/client";
 import { useEffect, useRef } from "react";
 
@@ -10,7 +17,7 @@ import { getThread } from "~/models/thread.server";
 import { json } from "@remix-run/node";
 import { requireUserId } from "~/session.server";
 import Spinner from "~/components/spinner";
-import { useOptionalUser, useUser } from "~/utils";
+import { useOptionalUser } from "~/utils";
 
 type LoaderData = Thread & {
   post: Post[];
@@ -46,7 +53,6 @@ export const action: ActionFunction = async ({ request, params }) => {
   }
 
   const newPost = await createPost(threadId, userId, content.toString());
-  console.log(newPost);
 
   return json<{ post: Post }>({ post: newPost });
 };
@@ -62,6 +68,10 @@ const ThreadPage = () => {
   const transition = useTransition();
 
   const isSubmitting = transition.state === "submitting";
+
+  const location = useLocation();
+  const pathname = location.pathname;
+  const searchParams = new URLSearchParams([["redirectTo", pathname]]);
 
   useEffect(() => {
     if (firstRef.current) {
@@ -123,7 +133,7 @@ const ThreadPage = () => {
         ) : (
           <div>
             <div>로그인한 사용자만 글을 작성할 수 있어요.</div>
-            <Link to="/login">
+            <Link to={`/login?${searchParams}`}>
               <span className="text-blue-500 hover:underline">
                 로그인 페이지로 이동
               </span>
