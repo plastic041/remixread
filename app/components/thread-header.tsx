@@ -1,10 +1,11 @@
-import type { Thread } from "@prisma/client";
-import { Form, Link, useLocation } from "@remix-run/react";
-
+import Avatar from "boring-avatars";
+import { Link } from "@remix-run/react";
 import { NavArrowLeft } from "iconoir-react";
-import { useState } from "react";
-import { usePathnameSearchParams } from "~/hooks/use-pathname-search-params";
+import Popover from "./popover";
+import type { Thread } from "@prisma/client";
 import { useOptionalUser } from "~/utils";
+import { usePathnameSearchParams } from "~/hooks/use-pathname-search-params";
+import { useState } from "react";
 
 type ThreadHeaderProps = {
   thread: Thread;
@@ -36,20 +37,9 @@ const ThreadHeader = ({ thread }: ThreadHeaderProps) => {
         {user ? (
           <>
             <button onClick={togglePopover}>
-              <div className="h-6 w-6 rounded-full bg-gradient-to-br from-orange-200 to-blue-500" />
+              <Avatar size={32} name={user.id} variant="beam" />
             </button>
-            {isPopoverOpen && (
-              <div className="absolute top-8 right-0 flex w-32 flex-col gap-2 rounded border border-mint-6 bg-mint-2 p-2 shadow">
-                <span className="px-2">{user.email}</span>
-                <Form action="/logout" method="post">
-                  <button type="submit">
-                    <span className="rounded-sm px-2 text-sm text-red-600 hover:bg-mint-3">
-                      로그아웃
-                    </span>
-                  </button>
-                </Form>
-              </div>
-            )}
+            <Popover user={user} opened={isPopoverOpen} />
           </>
         ) : (
           <Link to={redirectPathname}>

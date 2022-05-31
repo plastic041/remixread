@@ -1,22 +1,15 @@
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
-import {
-  Form,
-  Link,
-  useLoaderData,
-  useLocation,
-  useResolvedPath,
-  useTransition,
-} from "@remix-run/react";
+import { Form, Link, useLoaderData, useTransition } from "@remix-run/react";
 import type { Post, Thread } from "@prisma/client";
 import { useEffect, useRef } from "react";
 
 import PostBubble from "~/components/post-bubble";
+import Spinner from "~/components/spinner";
 import ThreadHeader from "~/components/thread-header";
 import { createPost } from "~/models/post.server";
 import { getThread } from "~/models/thread.server";
 import { json } from "@remix-run/node";
 import { requireUserId } from "~/session.server";
-import Spinner from "~/components/spinner";
 import { useOptionalUser } from "~/utils";
 import { usePathnameSearchParams } from "~/hooks/use-pathname-search-params";
 

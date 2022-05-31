@@ -3,14 +3,13 @@ import type {
   LoaderFunction,
   MetaFunction,
 } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
 import { Form, Link, useActionData, useSearchParams } from "@remix-run/react";
-import * as React from "react";
-
 import { createUserSession, getUserId } from "~/session.server";
-import { verifyLogin } from "~/models/user.server";
+import { json, redirect } from "@remix-run/node";
 import { safeRedirect, validateEmail } from "~/utils";
 import { useEffect, useRef } from "react";
+
+import { verifyLogin } from "~/models/user.server";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const userId = await getUserId(request);

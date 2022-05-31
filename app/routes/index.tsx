@@ -1,11 +1,10 @@
-import type { LoaderFunction } from "@remix-run/server-runtime";
 import type { Category, Thread } from "@prisma/client";
-
-import { json } from "@remix-run/node";
-
-import { getCategoriesWithThreads } from "~/models/category.server";
 import { Link, useLoaderData } from "@remix-run/react";
+
 import CategoryHeader from "~/components/category-header";
+import type { LoaderFunction } from "@remix-run/server-runtime";
+import { getCategoriesWithThreads } from "~/models/category.server";
+import { json } from "@remix-run/node";
 
 type CategoryWithThreads = Category & {
   thread: Thread[];
