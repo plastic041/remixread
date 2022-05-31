@@ -18,6 +18,7 @@ import { json } from "@remix-run/node";
 import { requireUserId } from "~/session.server";
 import Spinner from "~/components/spinner";
 import { useOptionalUser } from "~/utils";
+import { usePathnameSearchParams } from "~/hooks/use-pathname-search-params";
 
 type LoaderData = Thread & {
   post: Post[];
@@ -69,9 +70,8 @@ const ThreadPage = () => {
 
   const isSubmitting = transition.state === "submitting";
 
-  const location = useLocation();
-  const pathname = location.pathname;
-  const searchParams = new URLSearchParams([["redirectTo", pathname]]);
+  const pathnameSearchParams = usePathnameSearchParams();
+  const redirectPathname = `/login?${pathnameSearchParams}`;
 
   useEffect(() => {
     if (firstRef.current) {
@@ -133,7 +133,7 @@ const ThreadPage = () => {
         ) : (
           <div>
             <div>로그인한 사용자만 글을 작성할 수 있어요.</div>
-            <Link to={`/login?${searchParams}`}>
+            <Link to={redirectPathname}>
               <span className="text-blue-500 hover:underline">
                 로그인 페이지로 이동
               </span>
