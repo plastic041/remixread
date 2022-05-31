@@ -3,7 +3,7 @@ import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 
 import { requireUserId } from "~/session.server";
-import { useUser } from "~/utils";
+import { useOptionalUser, useUser } from "~/utils";
 import { getUserById } from "~/models/user.server";
 
 type LoaderData = {
@@ -18,7 +18,11 @@ type LoaderData = {
 // };
 
 const UserPage = () => {
-  const user = useUser();
+  const user = useOptionalUser();
+
+  if (!user) {
+    return <div>User not found</div>;
+  }
 
   return (
     <div>

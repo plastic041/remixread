@@ -11,7 +11,7 @@ model Category {
   id   String @id @default(cuid())
   name String
 
-  Thread Thread[]
+  thread Thread[]
 }
 
 model Thread {
@@ -22,11 +22,11 @@ model Thread {
 
   category Category @relation(fields: [categoryId], references: [id])
 
-  Post Post[]
+  post Post[]
 }
 
 model Post {
-  id        String   @id @default(cuid())
+  id        Int      @id @default(autoincrement())
   order     Int
   username  String
   content   String
@@ -36,7 +36,7 @@ model Post {
   userId   String
 
   thread Thread @relation(fields: [threadId], references: [id])
-  User   User?  @relation(fields: [userId], references: [id])
+  user   User?  @relation(fields: [userId], references: [id])
 }
 
 model User {
@@ -46,7 +46,7 @@ model User {
   createdAt DateTime @default(now())
 
   password Password?
-  Post     Post[]
+  post     Post[]
 }
 
 model Password {

@@ -10,6 +10,7 @@ import * as React from "react";
 import { createUserSession, getUserId } from "~/session.server";
 import { verifyLogin } from "~/models/user.server";
 import { safeRedirect, validateEmail } from "~/utils";
+import { useEffect, useRef } from "react";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const userId = await getUserId(request);
@@ -33,21 +34,21 @@ export const action: ActionFunction = async ({ request }) => {
 
   if (!validateEmail(email)) {
     return json<ActionData>(
-      { errors: { email: "Email is invalid" } },
+      { errors: { email: "이메일이 인식되지 않았습니다." } },
       { status: 400 }
     );
   }
 
   if (typeof password !== "string" || password.length === 0) {
     return json<ActionData>(
-      { errors: { password: "Password is required" } },
+      { errors: { password: "비밀번호를 입력해주세요." } },
       { status: 400 }
     );
   }
 
   if (password.length < 8) {
     return json<ActionData>(
-      { errors: { password: "Password is too short" } },
+      { errors: { password: "비밀번호를 8자 이상 입력해주세요." } },
       { status: 400 }
     );
   }
@@ -56,7 +57,7 @@ export const action: ActionFunction = async ({ request }) => {
 
   if (!user) {
     return json<ActionData>(
-      { errors: { email: "Invalid email or password" } },
+      { errors: { email: "없는 회원입니다." } },
       { status: 400 }
     );
   }
@@ -75,14 +76,14 @@ export const meta: MetaFunction = () => {
   };
 };
 
-export default function LoginPage() {
+const LoginPage = () => {
   const [searchParams] = useSearchParams();
-  const redirectTo = searchParams.get("redirectTo") || "/notes";
+  const redirectTo = searchParams.get("redirectTo") || "/";
   const actionData = useActionData() as ActionData;
-  const emailRef = React.useRef<HTMLInputElement>(null);
-  const passwordRef = React.useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (actionData?.errors?.email) {
       emailRef.current?.focus();
     } else if (actionData?.errors?.password) {
@@ -99,7 +100,7 @@ export default function LoginPage() {
               htmlFor="email"
               className="block text-sm font-medium text-gray-700"
             >
-              Email address
+              이메일 주소
             </label>
             <div className="mt-1">
               <input
@@ -127,7 +128,7 @@ export default function LoginPage() {
               htmlFor="password"
               className="block text-sm font-medium text-gray-700"
             >
-              Password
+              비밀번호
             </label>
             <div className="mt-1">
               <input
@@ -153,7 +154,7 @@ export default function LoginPage() {
             type="submit"
             className="w-full rounded bg-blue-500  py-2 px-4 text-white hover:bg-blue-600 focus:bg-blue-400"
           >
-            Log in
+            로그인
           </button>
           <div className="flex items-center justify-between">
             <div className="flex items-center">
@@ -171,7 +172,7 @@ export default function LoginPage() {
               </label>
             </div>
             <div className="text-center text-sm text-gray-500">
-              Don't have an account?{" "}
+              계정이 없으신가요?{" "}
               <Link
                 className="text-blue-500 underline"
                 to={{
@@ -179,7 +180,7 @@ export default function LoginPage() {
                   search: searchParams.toString(),
                 }}
               >
-                Sign up
+                회원가입
               </Link>
             </div>
           </div>
@@ -187,4 +188,6 @@ export default function LoginPage() {
       </div>
     </div>
   );
-}
+};
+
+export default LoginPage;

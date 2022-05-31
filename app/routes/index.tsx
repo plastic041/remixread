@@ -1,34 +1,52 @@
-import { Link } from "@remix-run/react";
+import type { LoaderFunction } from "@remix-run/server-runtime";
+import type { Category, Thread } from "@prisma/client";
 
-import { useOptionalUser } from "~/utils";
+import { json } from "@remix-run/node";
 
-export default function Index() {
-  const user = useOptionalUser();
+import { getCategoriesWithThreads } from "~/models/category.server";
+import { Link, useLoaderData } from "@remix-run/react";
+import CategoryHeader from "~/components/category-header";
+
+type CategoryWithThreads = Category & {
+  thread: Thread[];
+};
+
+type LoaderData = {
+  categoriesWithThreads: CategoryWithThreads[];
+};
+export const loader: LoaderFunction = async () => {
+  const categoriesWithThreads: CategoryWithThreads[] =
+    await getCategoriesWithThreads();
+
+  return json<LoaderData>({ categoriesWithThreads });
+};
+
+const CategoryPage = () => {
+  const { categoriesWithThreads } = useLoaderData() as LoaderData;
+
   return (
-    <main className="flex min-h-screen items-center justify-center bg-white">
-      {user ? (
-        <Link
-          to="/notes"
-          className="flex items-center justify-center rounded-md bg-white px-4 py-3 text-yellow-700 shadow-sm hover:bg-yellow-50"
-        >
-          View Notes for {user.email}
-        </Link>
-      ) : (
-        <div className="flex w-64 flex-col gap-4">
-          <Link
-            to="/join"
-            className="flex items-center justify-center rounded-md bg-white px-4 py-3 text-yellow-700 shadow-sm hover:bg-yellow-50"
-          >
-            Sign up
-          </Link>
-          <Link
-            to="/login"
-            className="flex items-center justify-center rounded-md bg-yellow-500 px-4 py-3 font-medium text-white hover:bg-yellow-600"
-          >
-            Log In
-          </Link>
-        </div>
-      )}
+    <main>
+      <ul className="flex w-full flex-col gap-4">
+        {categoriesWithThreads.map((category) => (
+          <li key={category.id} className="flex flex-col gap-2">
+            <CategoryHeader category={category} />
+            <ul className="flex flex-col gap-4 p-2">
+              {category.thread.map((thread) => (
+                <li key={thread.id}>
+                  <Link
+                    to={`/thread/${thread.id}`}
+                    className="text-mint-12 hover:underline"
+                  >
+                    {thread.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ul>
     </main>
   );
-}
+};
+
+export default CategoryPage;
