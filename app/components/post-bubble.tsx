@@ -14,13 +14,24 @@ const PostBubble = ({ post }: PostBubbleProps) => {
           <a
             href={`#${post.order}`}
             className="font-mono text-mint-11 hover:underline"
+            aria-label={`${post.order}번째 글로 이동`}
           >
             &gt;&gt;{post.order}
           </a>
           <span className="font-mono text-mint-12">{post.username}</span>
-          <span className="font-mono text-mint-12">{createdAt}</span>
+          <time
+            className="font-mono text-mint-12"
+            dateTime={post.createdAt as unknown as string}
+          >
+            {createdAt}
+          </time>
         </div>
-        <span className="text-sm tabular-nums text-mint-11">#{post.id}</span>
+        <span
+          className="text-sm tabular-nums text-mint-11"
+          aria-label={`글 id: ${post.id}`}
+        >
+          #{post.id}
+        </span>
       </div>
       <p className="text-mint-12">{post.content}</p>
     </article>

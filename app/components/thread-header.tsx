@@ -28,7 +28,8 @@ const ThreadHeader = ({ thread }: ThreadHeaderProps) => {
           <NavArrowLeft
             width={24}
             height={24}
-            className="rounded bg-mint-2 text-mint-12 hover:bg-mint-3"
+            className="rounded bg-mint-2 text-mint-12 hover:bg-mint-4 hover:outline hover:outline-mint-8"
+            aria-label="뒤로 가기"
           />
         </Link>
         <h1 className="text-2xl font-bold text-mint-12">{thread.name}</h1>
@@ -43,7 +44,7 @@ const ThreadHeader = ({ thread }: ThreadHeaderProps) => {
           </>
         ) : (
           <Link to={redirectPathname}>
-            <span className="text-blue-500 hover:text-blue-300">로그인</span>
+            <span className="text-blue-600 hover:text-blue-300">로그인</span>
           </Link>
         )}
       </div>

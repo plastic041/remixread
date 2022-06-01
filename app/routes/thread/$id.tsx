@@ -4,14 +4,14 @@ import type { Post, Thread } from "@prisma/client";
 import { useEffect, useRef } from "react";
 
 import PostBubble from "~/components/post-bubble";
-import Spinner from "~/components/spinner";
+import { motion } from "framer-motion";
 import ThreadHeader from "~/components/thread-header";
 import { createPost } from "~/models/post.server";
 import { getThread } from "~/models/thread.server";
 import { json } from "@remix-run/node";
 import { requireUserId } from "~/session.server";
 import { useOptionalUser } from "~/utils";
-import { usePathnameSearchParams } from "~/hooks/use-pathname-search-params";
+import { usePathnameSearchParams as useSearchParamsAsRedirectTo } from "~/hooks/use-pathname-search-params";
 
 type LoaderData = Thread & {
   post: Post[];
@@ -61,21 +61,21 @@ const ThreadPage = () => {
 
   const transition = useTransition();
 
-  const isSubmitting = transition.state === "submitting";
+  const isAdding = !!transition.submission;
 
-  const pathnameSearchParams = usePathnameSearchParams();
-  const redirectPathname = `/login?${pathnameSearchParams}`;
+  const searchParamsAsRedirectTo = useSearchParamsAsRedirectTo();
+  const redirectPathname = `/login?${searchParamsAsRedirectTo}`;
 
   useEffect(() => {
     if (firstRef.current) {
       firstRef.current = false;
       return;
     }
-    if (!isSubmitting) {
+    if (isAdding) {
       formRef.current?.reset();
       textareaRef.current?.focus();
     }
-  }, [isSubmitting]);
+  }, [isAdding]);
 
   return (
     <div className="bg-mint-1">
@@ -85,39 +85,50 @@ const ThreadPage = () => {
           {thread.post.map((post) => (
             <PostBubble key={post.id} post={post} />
           ))}
-          {transition.state === "submitting" ||
-            (transition.state === "loading" && (
-              <div className="flex h-8 items-center justify-center">
-                <Spinner />
-              </div>
-            ))}
+          {isAdding && (
+            <div className="animate-pulse">
+              <PostBubble
+                post={{
+                  id: 0,
+                  content:
+                    transition.submission.formData.get("content")?.toString() ||
+                    "",
+                  createdAt: new Date(),
+                  order: thread.post.length + 1,
+                  username: "00000000",
+                  threadId: thread.id,
+                  userId: "0",
+                }}
+              />
+            </div>
+          )}
         </ol>
         <div className="h-px border-t border-t-mint-6" />
         {user ? (
           <Form method="post" ref={formRef}>
-            <fieldset
-              className="flex flex-col gap-2"
-              disabled={transition.state === "submitting"}
-            >
+            <fieldset className="flex flex-col gap-2" disabled={isAdding}>
               <label className="flex flex-col gap-2">
                 <span className="text-mint-11">새 글 올리기</span>
                 <textarea
                   ref={textareaRef}
-                  className="min-h-[120px] resize-none border border-mint-6 bg-mint-1 p-2"
+                  className={`min-h-[120px] resize-none border border-mint-6 p-2 transition-colors delay-1000 duration-1000
+                  
+                    ${isAdding ? "bg-mint-3" : "bg-mint-1"}
+                  `}
                   name="content"
                   maxLength={240}
                   required
-                  disabled={transition.state === "submitting"}
+                  disabled={isAdding}
                 />
               </label>
               <div className="flex flex-col items-end">
                 <button
-                  type="submit"
                   className="flex h-[40px] w-[120px] items-center justify-center rounded-lg bg-mint-3 hover:bg-mint-5 active:bg-mint-6"
-                  disabled={transition.state === "submitting"}
+                  type="submit"
+                  disabled={isAdding}
                 >
                   <span className="text-mint-12">
-                    {transition.state === "submitting" ? "작성 중..." : "작성"}
+                    {isAdding ? "작성 중..." : "작성"}
                   </span>
                 </button>
               </div>
@@ -127,7 +138,7 @@ const ThreadPage = () => {
           <div>
             <div>로그인한 사용자만 글을 작성할 수 있어요.</div>
             <Link to={redirectPathname}>
-              <span className="text-blue-500 hover:underline">
+              <span className="text-blue-600 hover:underline">
                 로그인 페이지로 이동
               </span>
             </Link>
