@@ -1,5 +1,6 @@
 import type { Post } from "@prisma/client";
 import dayjs from "dayjs";
+import { motion } from "framer-motion";
 
 type PostBubbleProps = {
   post: Post;
@@ -8,7 +9,11 @@ const PostBubble = ({ post }: PostBubbleProps) => {
   const createdAt = dayjs(post.createdAt).format("YY-MM-DD HH:mm");
 
   return (
-    <article className="flex flex-col gap-2 rounded-lg bg-mint-3 p-2">
+    <motion.article
+      className="flex flex-col gap-2 rounded-lg bg-mint-3 p-2"
+      initial={{ scale: 0.8 }}
+      animate={{ scale: 1 }}
+    >
       <div className="flex flex-row justify-between">
         <div className="flex flex-row gap-2">
           <a
@@ -34,7 +39,7 @@ const PostBubble = ({ post }: PostBubbleProps) => {
         </span>
       </div>
       <p className="text-mint-12">{post.content}</p>
-    </article>
+    </motion.article>
   );
 };
 

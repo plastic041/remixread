@@ -4,7 +4,7 @@ import type { Post, Thread } from "@prisma/client";
 import { useEffect, useRef } from "react";
 
 import PostBubble from "~/components/post-bubble";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import ThreadHeader from "~/components/thread-header";
 import { createPost } from "~/models/post.server";
 import { getThread } from "~/models/thread.server";
@@ -81,28 +81,31 @@ const ThreadPage = () => {
     <div className="bg-mint-1">
       <ThreadHeader thread={thread} />
       <main className="flex flex-col gap-2 p-4">
-        <ol className="flex flex-col gap-2">
-          {thread.post.map((post) => (
-            <PostBubble key={post.id} post={post} />
-          ))}
-          {isAdding && (
-            <div className="animate-pulse">
-              <PostBubble
-                post={{
-                  id: 0,
-                  content:
-                    transition.submission.formData.get("content")?.toString() ||
-                    "",
-                  createdAt: new Date(),
-                  order: thread.post.length + 1,
-                  username: "00000000",
-                  threadId: thread.id,
-                  userId: "0",
-                }}
-              />
-            </div>
-          )}
-        </ol>
+        <AnimatePresence initial={false}>
+          <ol className="flex flex-col gap-2">
+            {thread.post.map((post) => (
+              <PostBubble key={post.id} post={post} />
+            ))}
+            {isAdding && (
+              <div className="animate-pulse">
+                <PostBubble
+                  post={{
+                    id: 0,
+                    content:
+                      transition.submission.formData
+                        .get("content")
+                        ?.toString() || "",
+                    createdAt: new Date(),
+                    order: thread.post.length + 1,
+                    username: "00000000",
+                    threadId: thread.id,
+                    userId: "0",
+                  }}
+                />
+              </div>
+            )}
+          </ol>
+        </AnimatePresence>
         <div className="h-px border-t border-t-mint-6" />
         {user ? (
           <Form method="post" ref={formRef}>
