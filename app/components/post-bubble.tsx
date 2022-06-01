@@ -4,14 +4,15 @@ import { motion } from "framer-motion";
 
 type PostBubbleProps = {
   post: Post;
+  loading: boolean;
 };
-const PostBubble = ({ post }: PostBubbleProps) => {
+const PostBubble = ({ post, loading }: PostBubbleProps) => {
   const createdAt = dayjs(post.createdAt).format("YY-MM-DD HH:mm");
 
   return (
     <motion.article
       className="flex flex-col gap-2 rounded-lg bg-mint-3 p-2"
-      initial={{ scale: 0.8 }}
+      initial={{ scale: loading ? 1 : 0.8 }}
       animate={{ scale: 1 }}
     >
       <div className="flex flex-row justify-between">

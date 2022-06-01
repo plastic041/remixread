@@ -71,7 +71,7 @@ const ThreadPage = () => {
       firstRef.current = false;
       return;
     }
-    if (isAdding) {
+    if (!isAdding) {
       formRef.current?.reset();
       textareaRef.current?.focus();
     }
@@ -84,7 +84,7 @@ const ThreadPage = () => {
         <AnimatePresence initial={false}>
           <ol className="flex flex-col gap-2">
             {thread.post.map((post) => (
-              <PostBubble key={post.id} post={post} />
+              <PostBubble key={post.id} post={post} loading={false} />
             ))}
             {isAdding && (
               <div className="animate-pulse">
@@ -101,6 +101,7 @@ const ThreadPage = () => {
                     threadId: thread.id,
                     userId: "0",
                   }}
+                  loading
                 />
               </div>
             )}
