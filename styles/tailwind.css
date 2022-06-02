@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .new-post {
+    @apply min-h-[120px] resize-none rounded p-2 outline outline-1 outline-mint-6 transition-colors delay-1000 duration-1000 focus:outline-2 focus:outline-mint-7;
+  }
+
+  .btn-post {
+    @apply flex h-[40px] w-[120px] items-center justify-center rounded-lg bg-mint-3 hover:bg-mint-5 active:bg-mint-6;
+  }
+}

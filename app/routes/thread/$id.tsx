@@ -114,8 +114,7 @@ const ThreadPage = () => {
                 <span className="text-mint-11">새 글 올리기</span>
                 <textarea
                   ref={textareaRef}
-                  className={`min-h-[120px] resize-none border border-mint-6 p-2 transition-colors delay-1000 duration-1000
-                  
+                  className={`new-post
                     ${isAdding ? "bg-mint-3" : "bg-mint-1"}
                   `}
                   name="content"
@@ -125,11 +124,7 @@ const ThreadPage = () => {
                 />
               </label>
               <div className="flex flex-col items-end">
-                <button
-                  className="flex h-[40px] w-[120px] items-center justify-center rounded-lg bg-mint-3 hover:bg-mint-5 active:bg-mint-6"
-                  type="submit"
-                  disabled={isAdding}
-                >
+                <button className="btn-post" type="submit" disabled={isAdding}>
                   <span className="text-mint-12">
                     {isAdding ? "작성 중..." : "작성"}
                   </span>
