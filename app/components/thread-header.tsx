@@ -1,28 +1,21 @@
-import Avatar from "boring-avatars";
 import { Link } from "@remix-run/react";
 import { NavArrowLeft } from "iconoir-react";
-import Popover from "./popover";
 import type { Thread } from "@prisma/client";
+import UserIcon from "./user-icon";
 import { useOptionalUser } from "~/utils";
 import { usePathnameSearchParams } from "~/hooks/use-pathname-search-params";
-import { useState } from "react";
 
 type ThreadHeaderProps = {
   thread: Thread;
 };
 const ThreadHeader = ({ thread }: ThreadHeaderProps) => {
   const user = useOptionalUser();
-  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
   const pathnameSearchParams = usePathnameSearchParams();
   const redirectPathname = `/login?${pathnameSearchParams}`;
 
-  const togglePopover = () => {
-    setIsPopoverOpen((prev) => !prev);
-  };
-
   return (
-    <div className="flex flex-row justify-between border-b border-b-mint-6 bg-mint-2 p-4">
+    <div className="flex h-16 flex-row justify-between border-b border-b-mint-6 bg-mint-2 px-4">
       <div className="flex flex-row items-center gap-2">
         <Link to="/">
           <NavArrowLeft
@@ -36,12 +29,7 @@ const ThreadHeader = ({ thread }: ThreadHeaderProps) => {
       </div>
       <div className="relative flex flex-row items-center gap-2">
         {user ? (
-          <>
-            <button onClick={togglePopover}>
-              <Avatar size={32} name={user.id} variant="beam" />
-            </button>
-            <Popover user={user} opened={isPopoverOpen} />
-          </>
+          <UserIcon user={user} />
         ) : (
           <Link to={redirectPathname}>
             <span className="text-blue-600 hover:text-blue-300">로그인</span>

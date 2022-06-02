@@ -4,7 +4,7 @@ import type { Post, Thread } from "@prisma/client";
 import { useEffect, useRef } from "react";
 
 import PostBubble from "~/components/post-bubble";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import ThreadHeader from "~/components/thread-header";
 import { createPost } from "~/models/post.server";
 import { getThread } from "~/models/thread.server";
