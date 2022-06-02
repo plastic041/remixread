@@ -7,6 +7,7 @@ import UserHeader from "~/components/user-header";
 import { getUserPosts } from "~/models/post.server";
 import { getUserId } from "~/session.server";
 import { useOptionalUser } from "~/utils";
+import { truncate } from "~/utils/truncate";
 
 type LoaderData = {
   userPosts?: Post[];
@@ -33,7 +34,7 @@ const UserPage = () => {
   return (
     <>
       <UserHeader />
-      <main className="flex flex-col p-4">
+      <main className="container mx-auto flex flex-col p-4">
         <div>
           <dl className="flex flex-col gap-4">
             <div className="flex flex-row justify-between">
@@ -44,19 +45,17 @@ const UserPage = () => {
               <dt className="text-mint-11">가입일</dt>
               <dd className="text-mint-12">{createdAt}</dd>
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col items-start gap-2">
               <dt className="text-mint-11">작성글</dt>
-              <dd className="flex flex-col">
+              <dd className="flex flex-col items-start">
                 {userPosts?.map((post) => (
                   <Link
                     to={`/thread/${post.threadId}#${post.order}`}
                     key={post.id}
+                    className="text-blue-600 hover:underline"
                   >
-                    <span
-                      className="text-blue-600 hover:underline"
-                      key={post.id}
-                    >
-                      {post.content.slice(0, 20)}
+                    <span key={post.id}>
+                      {truncate(post.content, { length: 25 })}
                     </span>
                   </Link>
                 ))}
