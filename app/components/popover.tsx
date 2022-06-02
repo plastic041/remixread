@@ -19,7 +19,7 @@ const Popover = ({ opened, user }: PopoverProps) => {
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.2 }}
         >
-          <Link to="user">
+          <Link to="/user">
             <span className="px-2 text-blue-600 hover:underline">
               {user.email}
             </span>

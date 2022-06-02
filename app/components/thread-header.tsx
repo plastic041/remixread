@@ -21,7 +21,7 @@ const ThreadHeader = ({ thread }: ThreadHeaderProps) => {
           <NavArrowLeft
             width={24}
             height={24}
-            className="rounded bg-mint-2 text-mint-12 hover:bg-mint-4 hover:outline hover:outline-mint-8"
+            className="rounded bg-mint-2 text-mint-12 hover:bg-mint-4"
             aria-label="뒤로 가기"
           />
         </Link>

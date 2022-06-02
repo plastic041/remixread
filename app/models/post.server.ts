@@ -1,4 +1,4 @@
-import type { Post } from "@prisma/client";
+import type { Post, User } from "@prisma/client";
 
 import { prisma } from "~/db.server";
 import { hash8 } from "~/utils/hash";
@@ -38,5 +38,16 @@ export const createPost = async (
       },
       content,
     },
+  });
+};
+
+export const getUserPosts = ({
+  userId,
+}: {
+  userId: User["id"];
+}): Promise<Post[]> => {
+  return prisma.post.findMany({
+    where: { userId },
+    orderBy: { order: "asc" },
   });
 };
