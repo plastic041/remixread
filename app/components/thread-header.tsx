@@ -1,5 +1,5 @@
 import { Link } from "@remix-run/react";
-import { NavArrowLeft } from "iconoir-react";
+import { Home } from "iconoir-react";
 import type { Thread } from "@prisma/client";
 import UserIcon from "./user-icon";
 import { useOptionalUser } from "~/utils";
@@ -18,7 +18,7 @@ const ThreadHeader = ({ thread }: ThreadHeaderProps) => {
     <div className="flex h-16 flex-row justify-between border-b border-b-mint-6 bg-mint-2 px-4">
       <div className="flex flex-row items-center gap-2">
         <Link to="/">
-          <NavArrowLeft
+          <Home
             width={24}
             height={24}
             className="rounded bg-mint-2 text-mint-12 hover:bg-mint-4"
