@@ -14,7 +14,7 @@ const PostBubble = ({ post, loading }: PostBubbleProps) => {
       className="flex flex-col gap-2 rounded-lg bg-mint-3 p-2"
       initial={{ scale: loading ? 1 : 0.8 }}
       animate={{ scale: 1 }}
-      id={`${post.id}`}
+      id={`${post.order}`}
     >
       <div className="flex flex-row justify-between">
         <div className="flex flex-row gap-2">
