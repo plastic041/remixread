@@ -78,7 +78,7 @@ const CategoryPage = () => {
       </Dialog.Portal>
 
       <MainHeader />
-      <main className="container mx-auto">
+      <main className="container mx-auto lg:px-40 xl:px-60 2xl:px-80">
         <ul className="flex w-full flex-col gap-4">
           {categoriesWithThreads.map((category) => (
             <li

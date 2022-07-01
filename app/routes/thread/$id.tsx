@@ -80,7 +80,7 @@ const ThreadPage = () => {
   return (
     <div className="bg-mint-1">
       <ThreadHeader thread={thread} />
-      <main className="flex flex-col gap-2 p-4">
+      <main className="container mx-auto flex flex-col gap-2 p-4 lg:px-40 xl:px-60 2xl:px-80">
         <AnimatePresence initial={false}>
           <ol className="flex flex-col gap-2">
             {thread.post.map((post) => (
