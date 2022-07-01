@@ -1,4 +1,8 @@
-import type { ActionFunction, LoaderFunction } from "@remix-run/node";
+import type {
+  ActionFunction,
+  LoaderFunction,
+  MetaFunction,
+} from "@remix-run/node";
 import { Form, Link, useLoaderData, useTransition } from "@remix-run/react";
 import type { Post, Thread } from "@prisma/client";
 import { useEffect, useRef } from "react";
@@ -12,6 +16,15 @@ import { json } from "@remix-run/node";
 import { requireUserId } from "~/session.server";
 import { useOptionalUser } from "~/utils";
 import { usePathnameSearchParams as useSearchParamsAsRedirectTo } from "~/hooks/use-pathname-search-params";
+import invariant from "tiny-invariant";
+
+export const meta: MetaFunction = ({ data }) => {
+  invariant(data, "expected data");
+
+  return {
+    title: data.name,
+  };
+};
 
 type LoaderData = Thread & {
   post: Post[];

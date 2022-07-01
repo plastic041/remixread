@@ -1,5 +1,5 @@
 import type { Post } from "@prisma/client";
-import type { LoaderFunction } from "@remix-run/node";
+import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import dayjs from "dayjs";
@@ -8,6 +8,12 @@ import { getUserPosts } from "~/models/post.server";
 import { getUserId } from "~/session.server";
 import { useOptionalUser } from "~/utils";
 import { truncate } from "~/utils/truncate";
+
+export const meta: MetaFunction = () => {
+  return {
+    title: "사용자 정보",
+  };
+};
 
 type LoaderData = {
   userPosts?: Post[];
