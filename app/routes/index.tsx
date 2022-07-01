@@ -25,7 +25,6 @@ type LoaderData = {
 export const loader: LoaderFunction = async () => {
   const categoriesWithThreads: CategoryWithThreads[] =
     await getCategoriesWithThreads();
-  console.log(categoriesWithThreads[0].thread[0]);
 
   return json<LoaderData>({ categoriesWithThreads });
 };
