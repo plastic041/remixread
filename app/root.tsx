@@ -28,7 +28,7 @@ export const links: LinksFunction = () => {
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
-  title: "Remix Notes",
+  title: "리믹스레드",
   viewport: "width=device-width,initial-scale=1",
 });
 
