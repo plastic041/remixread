@@ -18,6 +18,7 @@ type LoaderData = Thread & {
 };
 
 export const loader: LoaderFunction = async ({ request, params }) => {
+  console.log(process.env.NODE_ENV === "production");
   const id = params.id;
   if (!id) {
     throw new Response("Not Found", { status: 404 });

@@ -17,12 +17,11 @@ const ThreadHeader = ({ thread }: ThreadHeaderProps) => {
   return (
     <div className="flex h-16 flex-row justify-between border-b border-b-mint-6 bg-mint-2 px-4">
       <div className="flex flex-row items-center gap-2">
-        <Link to="/">
+        <Link to="/" title="메인 페이지로 이동">
           <Home
             width={24}
             height={24}
-            className="rounded bg-mint-2 text-mint-12 hover:bg-mint-4"
-            aria-label="뒤로 가기"
+            className="cursor-pointer rounded bg-mint-2 text-mint-12 hover:bg-mint-4 active:bg-mint-5"
           />
         </Link>
         <h1 className="text-2xl font-bold text-mint-12">{thread.name}</h1>

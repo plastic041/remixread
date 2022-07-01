@@ -33,21 +33,21 @@ export const action: ActionFunction = async ({ request }) => {
 
   if (!validateEmail(email)) {
     return json<ActionData>(
-      { errors: { email: "Email is invalid" } },
+      { errors: { email: "아이디가 인식되지 않았습니다." } },
       { status: 400 }
     );
   }
 
   if (typeof password !== "string" || password.length === 0) {
     return json<ActionData>(
-      { errors: { password: "Password is required" } },
+      { errors: { password: "비밀번호가 필요합니다." } },
       { status: 400 }
     );
   }
 
   if (password.length < 8) {
     return json<ActionData>(
-      { errors: { password: "Password is too short" } },
+      { errors: { password: "비밀번호를 8자 이상 입력해주세요." } },
       { status: 400 }
     );
   }
@@ -55,7 +55,7 @@ export const action: ActionFunction = async ({ request }) => {
   const existingUser = await getUserByEmail(email);
   if (existingUser) {
     return json<ActionData>(
-      { errors: { email: "A user already exists with this email" } },
+      { errors: { email: "이미 사용중인 아이디입니다." } },
       { status: 400 }
     );
   }
@@ -100,7 +100,7 @@ export default function Join() {
               htmlFor="email"
               className="block text-sm font-medium text-gray-700"
             >
-              Email address
+              아이디
             </label>
             <div className="mt-1">
               <input
@@ -128,7 +128,7 @@ export default function Join() {
               htmlFor="password"
               className="block text-sm font-medium text-gray-700"
             >
-              Password
+              비밀번호
             </label>
             <div className="mt-1">
               <input
@@ -154,11 +154,11 @@ export default function Join() {
             type="submit"
             className="w-full rounded bg-blue-500  py-2 px-4 text-white hover:bg-blue-600 focus:bg-blue-400"
           >
-            Create Account
+            계정 만들기
           </button>
           <div className="flex items-center justify-center">
             <div className="text-center text-sm text-gray-500">
-              Already have an account?{" "}
+              계정이 있으신가요?{" "}
               <Link
                 className="text-blue-500 underline"
                 to={{
@@ -166,7 +166,7 @@ export default function Join() {
                   search: searchParams.toString(),
                 }}
               >
-                Log in
+                로그인
               </Link>
             </div>
           </div>
