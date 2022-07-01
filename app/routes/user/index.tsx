@@ -40,7 +40,7 @@ const UserPage = () => {
   return (
     <>
       <UserHeader />
-      <main className="container mx-auto flex flex-col p-4">
+      <main className="container mx-auto flex flex-col p-4 lg:px-40 xl:px-60 2xl:px-80">
         <div>
           <dl className="flex flex-col gap-4">
             <div className="flex flex-row justify-between">
@@ -61,7 +61,7 @@ const UserPage = () => {
                     className="text-blue-600 hover:underline"
                   >
                     <span key={post.id}>
-                      {truncate(post.content, { length: 25 })}
+                      {truncate(post.content, { length: 36 })}
                     </span>
                   </Link>
                 ))}
