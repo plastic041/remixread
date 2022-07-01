@@ -67,5 +67,9 @@ export function useUser(): User {
 }
 
 export function validateEmail(email: unknown): email is string {
-  return typeof email === "string" && email.length > 3;
+  return (
+    typeof email === "string" &&
+    email.length > 3 &&
+    /^\S+@\S+\.\S+$/.test(email)
+  );
 }
