@@ -12,7 +12,7 @@ const Popover = ({ opened, user }: PopoverProps) => {
     <AnimatePresence>
       {opened && (
         <motion.div
-          className="absolute top-14 right-0 flex w-32 flex-col gap-2 rounded border border-mint-6 bg-mint-2 p-2 shadow"
+          className="absolute top-14 right-0 flex flex-col gap-2 rounded border border-mint-6 bg-mint-2 p-2 shadow"
           key="popover"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
