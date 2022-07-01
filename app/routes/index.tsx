@@ -1,6 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
 
-import type { Category, Thread } from "@prisma/client";
+import type { Category, Post, Thread } from "@prisma/client";
 import { Link, useLoaderData } from "@remix-run/react";
 
 import CategoryHeader from "~/components/category-header";
@@ -14,7 +14,9 @@ import { createThreadWithFirstPost } from "~/models/thread.server";
 import { requireUserId } from "~/session.server";
 
 type CategoryWithThreads = Category & {
-  thread: Thread[];
+  thread: (Thread & {
+    post: Post[];
+  })[];
 };
 
 type LoaderData = {
@@ -23,6 +25,7 @@ type LoaderData = {
 export const loader: LoaderFunction = async () => {
   const categoriesWithThreads: CategoryWithThreads[] =
     await getCategoriesWithThreads();
+  console.log(categoriesWithThreads[0].thread[0]);
 
   return json<LoaderData>({ categoriesWithThreads });
 };
@@ -91,9 +94,12 @@ const CategoryPage = () => {
                   <li key={thread.id}>
                     <Link
                       to={`/thread/${thread.id}`}
-                      className="text-mint-12 hover:underline"
+                      className="flex flex-row gap-1 hover:underline"
                     >
-                      {thread.name}
+                      <span className="text-mint-12">{thread.name}</span>
+                      <span className="text-mint-11">
+                        ({thread.post.length})
+                      </span>
                     </Link>
                   </li>
                 ))}
