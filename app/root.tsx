@@ -21,7 +21,8 @@ export const links: LinksFunction = () => {
     { rel: "stylesheet", href: tailwindStylesheetUrl },
     {
       rel: "stylesheet",
-      href: "https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard-jp.css",
+      as: "style",
+      href: "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.5/dist/web/static/pretendard-jp-dynamic-subset.css",
     },
   ];
 };
